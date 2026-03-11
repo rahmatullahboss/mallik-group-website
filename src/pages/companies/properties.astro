@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import CTA from '../../components/CTA.astro';
+---
+
+<Layout title="Mallik Properties Ltd" description="Real estate development and property management services.">
+  <Hero title="Mallik Properties Ltd" subtitle="Building dreams, creating homes." />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <SectionTitle title="About Us" centered={false} />
+          <p class="text-gray-600 mb-6">
+            Mallik Properties Ltd is a premier real estate development company committed to creating 
+            exceptional living and working spaces. With years of experience in the property market, 
+            we have established ourselves as a trusted name in real estate.
+          </p>
+          <p class="text-gray-600 mb-6">
+            From residential complexes to commercial buildings, our projects are characterized by 
+            quality construction, innovative design, and sustainable practices.
+          </p>
+        </div>
+        <div class="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
+          <span class="text-gray-500">Properties Image</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle title="What We Offer" />
+      <div class="grid md:grid-cols-3 gap-6 mt-12">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Development</h3>
+          <p class="text-gray-600">Residential and commercial property development projects.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Property Management</h3>
+          <p class="text-gray-600">Comprehensive management services for residential and commercial properties.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Investment</h3>
+          <p class="text-gray-600">Property investment opportunities and consultancy services.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <CTA 
+    title="Looking for Your Dream Home?"
+    description="Explore our latest property projects."
+    buttonText="Contact Us"
+    buttonHref="/contact"
+  />
+</Layout>

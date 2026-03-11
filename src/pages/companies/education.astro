@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import CTA from '../../components/CTA.astro';
+---
+
+<Layout title="Mallik Education Network" description="Quality education and training for future leaders.">
+  <Hero title="Mallik Education Network" subtitle="Shaping minds, building futures." />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <SectionTitle title="About Us" centered={false} />
+          <p class="text-gray-600 mb-6">
+            Mallik Education Network is committed to providing quality education and training 
+            that empowers individuals to achieve their career goals and become leaders in their fields.
+          </p>
+          <p class="text-gray-600 mb-6">
+            Our programs are designed with industry relevance in mind, ensuring that students 
+            gain practical skills and knowledge that prepare them for the challenges of tomorrow.
+          </p>
+        </div>
+        <div class="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
+          <span class="text-gray-500">Education Image</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle title="Our Programs" />
+      <div class="grid md:grid-cols-3 gap-6 mt-12">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Professional Courses</h3>
+          <p class="text-gray-600">Industry-recognized certifications and professional development programs.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Skills Training</h3>
+          <p class="text-gray-600">Practical skills training for career advancement and employment.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Corporate Training</h3>
+          <p class="text-gray-600">Customized training solutions for businesses and organizations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <CTA 
+    title="Start Your Learning Journey?"
+    description="Explore our education programs and transform your future."
+    buttonText="Learn More"
+    buttonHref="/contact"
+  />
+</Layout>

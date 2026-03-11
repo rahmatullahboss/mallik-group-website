@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import CTA from '../../components/CTA.astro';
+---
+
+<Layout title="Mallik Immigration Ltd" description="Professional immigration and visa services.">
+  <Hero title="Mallik Immigration Ltd" subtitle="Your trusted partner for immigration and visa services." />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <SectionTitle title="About Us" centered={false} />
+          <p class="text-gray-600 mb-6">
+            Mallik Immigration Ltd is a leading immigration and visa consultancy firm dedicated to 
+            helping individuals and businesses navigate the complex world of international migration.
+          </p>
+          <p class="text-gray-600 mb-6">
+            Our team of experienced immigration professionals provides comprehensive services including 
+            visa applications, residency permits, work permits, and citizenship programs across multiple countries.
+          </p>
+        </div>
+        <div class="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
+          <span class="text-gray-500">Immigration Image</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle title="Our Services" />
+      <div class="grid md:grid-cols-3 gap-6 mt-12">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Visa Services</h3>
+          <p class="text-gray-600">Tourist, business, student, and work visa applications for various countries.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3"> Residency Programs</h3>
+          <p class="text-gray-600">Golden visa, investment residency, and permanent residency solutions.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Citizenship</h3>
+          <p class="text-gray-600">Citizenship by investment and naturalization programs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <CTA 
+    title="Need Immigration Assistance?"
+    description="Contact us today for a free consultation."
+    buttonText="Get in Touch"
+    buttonHref="/contact"
+  />
+</Layout>

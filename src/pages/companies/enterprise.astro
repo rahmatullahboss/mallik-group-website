@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import CTA from '../../components/CTA.astro';
+---
+
+<Layout title="Messrs Mallik Enterprise" description="Business solutions and enterprise development.">
+  <Hero title="Messrs Mallik Enterprise" subtitle="Empowering businesses, enabling growth." />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <SectionTitle title="About Us" centered={false} />
+          <p class="text-gray-600 mb-6">
+            Messrs Mallik Enterprise is dedicated to fostering business growth and entrepreneurship. 
+            We provide comprehensive solutions to help businesses of all sizes achieve their full potential.
+          </p>
+          <p class="text-gray-600 mb-6">
+            Our services span business consulting, enterprise development programs, and strategic 
+            partnerships that drive economic value and create employment opportunities.
+          </p>
+        </div>
+        <div class="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
+          <span class="text-gray-500">Enterprise Image</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle title="Our Solutions" />
+      <div class="grid md:grid-cols-3 gap-6 mt-12">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Business Consulting</h3>
+          <p class="text-gray-600">Expert advice and strategies for business improvement.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Enterprise Programs</h3>
+          <p class="text-gray-600">Development programs for emerging businesses and entrepreneurs.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold text-primary mb-3">Partnerships</h3>
+          <p class="text-gray-600">Strategic partnerships to expand business reach and capabilities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <CTA 
+    title="Ready to Grow Your Business?"
+    description="Let's discuss how we can help your business thrive."
+    buttonText="Get Started"
+    buttonHref="/contact"
+  />
+</Layout>

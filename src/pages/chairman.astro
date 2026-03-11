@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<Layout title="Chairman Message" description="Read the message from our Chairman.">
+  <Hero title="Message from Our Chairman" />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+        <!-- Chairman Photo -->
+        <div class="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
+          <span class="text-gray-500">Chairman Photo Placeholder</span>
+        </div>
+        
+        <!-- Message Content -->
+        <div>
+          <h2 class="text-3xl font-bold text-primary font-heading mb-2">
+            A Message of Commitment
+          </h2>
+          <p class="text-secondary font-semibold mb-6">From the Desk of Our Chairman</p>
+          
+          <div class="space-y-4 text-gray-600">
+            <p>
+              Dear Valued Clients, Partners, and Stakeholders,
+            </p>
+            <p>
+              It is my distinct pleasure to welcome you to Mallik Group PLC. As we reflect on our 
+              journey, I am immensely proud of what we have accomplished together. From our humble 
+              beginnings to becoming a diversified business group, our commitment to excellence has 
+              never wavered.
+            </p>
+            <p>
+              At Mallik Group, we believe that success is not just measured by financial metrics, 
+              but by the positive impact we create in the lives of our clients and communities. 
+              Whether it's helping families achieve their immigration dreams, creating beautiful 
+              homes, empowering businesses, or shaping future leaders through education - every 
+              endeavor is driven by our core values of integrity, innovation, and excellence.
+            </p>
+            <p>
+              Our vision for the future is clear: to continue growing while maintaining the highest 
+              standards of service and ethical conduct. We are committed to investing in our people, 
+              adopting cutting-edge technologies, and expanding our reach to serve more communities.
+            </p>
+            <p>
+              I extend my heartfelt gratitude to our dedicated team, loyal clients, and valued partners 
+              who have been instrumental in our success. Together, we will continue to build tomorrow, today.
+            </p>
+            <p class="font-semibold">
+              Warm regards,<br/>
+              <span class="text-primary">Chairman</span><br/>
+              Mallik Group PLC
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

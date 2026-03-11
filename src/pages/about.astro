@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+---
+
+<Layout title="About Us" description="Learn more about Mallik Group PLC - a diversified business group.">
+  <Hero title="About Us" />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <SectionTitle title="Our Story" centered={false} />
+          <p class="text-gray-600 mb-6">
+            Mallik Group PLC has been a pioneer in providing exceptional services across multiple industries. 
+            Founded with a vision to create value and make a positive impact, we have grown to become a 
+            trusted name in immigration, real estate, business enterprise, and education.
+          </p>
+          <p class="text-gray-600 mb-6">
+            Our journey began with a commitment to excellence, and today, we continue to uphold the same 
+            values that have guided us from the start. We believe in integrity, innovation, and customer 
+            satisfaction.
+          </p>
+        </div>
+        <div class="bg-gray-200 rounded-lg h-80 flex items-center justify-center">
+          <span class="text-gray-500">About Image</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle 
+        title="Our Mission & Vision" 
+        subtitle="Guiding principles that drive everything we do."
+      />
+      <div class="grid md:grid-cols-2 gap-8 mt-12">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold text-primary mb-4">Our Mission</h3>
+          <p class="text-gray-600">
+            To deliver exceptional services that exceed client expectations while contributing 
+            positively to the communities we serve. We strive to be the benchmark for quality 
+            and professionalism in all our endeavors.
+          </p>
+        </div>
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold text-primary mb-4">Our Vision</h3>
+          <p class="text-gray-600">
+            To be the most trusted and respected business group across our industries, 
+            known for our commitment to excellence, innovation, and sustainable growth.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle title="Our Values" />
+      <div class="grid md:grid-cols-4 gap-6 mt-12">
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">★</span>
+          </div>
+          <h3 class="text-lg font-bold text-primary mb-2">Excellence</h3>
+          <p class="text-gray-600 text-sm">Striving for the highest standards in everything we do.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">♥</span>
+          </div>
+          <h3 class="text-lg font-bold text-primary mb-2">Integrity</h3>
+          <p class="text-gray-600 text-sm">Honest and ethical conduct in all our dealings.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">⚡</span>
+          </div>
+          <h3 class="text-lg font-bold text-primary mb-2">Innovation</h3>
+          <p class="text-gray-600 text-sm">Embracing new ideas and creative solutions.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl">🤝</span>
+          </div>
+          <h3 class="text-lg font-bold text-primary mb-2">Collaboration</h3>
+          <p class="text-gray-600 text-sm">Working together to achieve shared goals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

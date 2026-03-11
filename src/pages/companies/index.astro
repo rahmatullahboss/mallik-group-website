@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import CompanyCard from '../../components/CompanyCard.astro';
+
+const companies = [
+  { 
+    name: 'Mallik Immigration Ltd', 
+    description: 'Professional immigration and visa services for individuals and businesses seeking to relocate or expand internationally.',
+    href: '/companies/immigration' 
+  },
+  { 
+    name: 'Mallik Properties Ltd', 
+    description: 'Leading real estate development and property management company creating modern living and working spaces.',
+    href: '/companies/properties' 
+  },
+  { 
+    name: 'Messrs Mallik Enterprise', 
+    description: 'Empowering businesses with comprehensive solutions for growth and sustainable development.',
+    href: '/companies/enterprise' 
+  },
+  { 
+    name: 'Mallik Education Network', 
+    description: 'Providing quality education and training programs to shape the leaders of tomorrow.',
+    href: '/companies/education' 
+  },
+];
+---
+
+<Layout title="Our Companies" description="Discover the companies that make up Mallik Group PLC.">
+  <Hero title="Our Companies" />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle 
+        title="Companies Under Mallik Group" 
+        subtitle="Learn more about each company and the services they offer."
+      />
+      <div class="grid md:grid-cols-2 gap-6 mt-12">
+        {companies.map((company) => (
+          <CompanyCard {...company} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

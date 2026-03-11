@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0B3C5D;
+  --color-secondary: #C8A96A;
+  --font-heading: Poppins, sans-serif;
+  --font-body: Inter, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: var(--font-body);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* ============================================
+   HERO SECTION ANIMATIONS
+   ============================================ */
+
+/* Grain texture - subtle noise overlay */
+.hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* Draw underline animation */
+@keyframes draw-underline {
+  from { width: 0; }
+  to { width: clamp(100px, 20vw, 200px); }
+}
+
+/* Fade in up animation */
+@keyframes fade-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Slower, more elegant bounce - 3s */
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+/* Subtle scale in for hero container */
+@keyframes scale-in {
+  from { 
+    transform: scale(1); 
+  }
+  to { 
+    transform: scale(1.02); 
+  }
+}
+
+/* Animation classes */
+.animate-draw-underline {
+  animation: draw-underline 1.5s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in-up 1s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+.animate-bounce {
+  animation: bounce 3s ease-in-out infinite;
+}
+
+.animate-scale-in {
+  animation: scale-in 2s ease-out forwards;
+}
+
+/* Pause animations on hover */
+.animate-bounce:hover,
+.animate-bounce:focus {
+  animation-play-state: paused;
+}
+
+/* Focus within for keyboard navigation */
+nav:focus-within {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* Quick link styles */
+.quick-link {
+  @apply px-4 py-2 sm:px-5 sm:py-2.5 border border-white/30 rounded-full text-white/90 text-sm font-medium transition-all duration-300;
+}
+
+.quick-link:hover {
+  @apply bg-secondary text-primary border-secondary transform scale-105 shadow-lg;
+}
+
+.quick-link:focus {
+  @apply outline-none ring-2 ring-secondary ring-offset-2 ring-offset-transparent;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.not-sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-bounce {
+    animation: none;
+  }
+}

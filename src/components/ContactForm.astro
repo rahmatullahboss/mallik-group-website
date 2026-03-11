@@ -1,0 +1,408 @@
+---
+---
+<div class="relative max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 p-8 sm:p-12">
+  <!-- Progress Bar -->
+  <div class="mb-8">
+    <div class="flex justify-between mb-2">
+      <span class="text-xs font-bold text-primary uppercase tracking-wider step-indicator" data-step="1">Personal Info</span>
+      <span class="text-xs font-bold text-gray-300 uppercase tracking-wider step-indicator" data-step="2">Inquiry</span>
+      <span class="text-xs font-bold text-gray-300 uppercase tracking-wider step-indicator" data-step="3">Review</span>
+    </div>
+    <div class="w-full bg-gray-100 rounded-full h-2">
+      <div id="progress-bar" class="bg-secondary h-2 rounded-full transition-all duration-500 ease-out" style="width: 33.33%"></div>
+    </div>
+  </div>
+
+  <form id="contact-form" class="relative overflow-hidden min-h-[350px]" novalidate>
+    <!-- Step 1: Info -->
+    <div class="form-step active transition-all duration-500 w-full" data-step="1">
+      <h3 class="text-2xl font-heading font-bold text-primary mb-6">Tell us about yourself</h3>
+      
+      <div class="space-y-6">
+        <div>
+          <label for="name" class="block text-sm font-bold text-gray-700 mb-2">Full Name <span class="text-red-500">*</span></label>
+          <input type="text" id="name" name="name" required aria-describedby="name-error"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-shadow"
+            placeholder="John Doe" />
+          <p id="name-error" class="text-red-500 text-xs mt-1 hidden font-medium">Please enter your full name</p>
+        </div>
+        
+        <div>
+          <label for="email" class="block text-sm font-bold text-gray-700 mb-2">Email Address <span class="text-red-500">*</span></label>
+          <input type="email" id="email" name="email" required aria-describedby="email-error"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-shadow"
+            placeholder="john@example.com" />
+          <p id="email-error" class="text-red-500 text-xs mt-1 hidden font-medium">Please enter a valid email address</p>
+        </div>
+        
+        <div>
+          <label for="phone" class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
+          <input type="tel" id="phone" name="phone"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-shadow"
+            placeholder="+1 (555) 000-0000" />
+        </div>
+      </div>
+      
+      <div class="mt-8 flex justify-end">
+        <button type="button" class="next-btn bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors shadow-md flex items-center gap-2">
+          Continue <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Message -->
+    <div class="form-step hidden absolute top-0 left-full w-full transition-all duration-500" data-step="2">
+      <h3 class="text-2xl font-heading font-bold text-primary mb-6">How can we help?</h3>
+      
+      <div class="space-y-6">
+        <div class="relative">
+          <label for="inquiry" class="block text-sm font-bold text-gray-700 mb-2">Area of Interest <span class="text-red-500">*</span></label>
+          <select id="inquiry" name="inquiry" required aria-describedby="inquiry-error"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-shadow bg-white appearance-none">
+            <option value="" disabled selected>Select an option...</option>
+            <option value="Immigration">Immigration Services</option>
+            <option value="Properties">Real Estate & Properties</option>
+            <option value="Enterprise">Business Enterprise</option>
+            <option value="Education">Education Network</option>
+            <option value="Other">Other Inquiry</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 top-[30px]">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </div>
+          <p id="inquiry-error" class="text-red-500 text-xs mt-1 hidden font-medium">Please select an area of interest</p>
+        </div>
+        
+        <div>
+          <label for="message" class="block text-sm font-bold text-gray-700 mb-2">Your Message <span class="text-red-500">*</span></label>
+          <textarea id="message" name="message" required rows="5" aria-describedby="message-error"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-shadow resize-none"
+            placeholder="Please provide details about your inquiry..."></textarea>
+          <p id="message-error" class="text-red-500 text-xs mt-1 hidden font-medium">Message is required (min 10 characters)</p>
+        </div>
+      </div>
+      
+      <div class="mt-8 flex justify-between">
+        <button type="button" class="prev-btn text-gray-500 font-bold hover:text-primary transition-colors flex items-center gap-2 px-4 py-3">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg> Back
+        </button>
+        <button type="button" class="next-btn bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors shadow-md flex items-center gap-2">
+          Review <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Review -->
+    <div class="form-step hidden absolute top-0 left-full w-full transition-all duration-500" data-step="3">
+      <h3 class="text-2xl font-heading font-bold text-primary mb-6">Review your details</h3>
+      
+      <div class="bg-gray-50 rounded-xl p-6 mb-8 border border-gray-100">
+        <dl class="space-y-4 text-sm">
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-4">
+            <dt class="font-bold text-gray-500">Name</dt>
+            <dd class="col-span-2 font-medium text-primary" id="review-name">-</dd>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-4">
+            <dt class="font-bold text-gray-500">Contact</dt>
+            <dd class="col-span-2 font-medium text-primary">
+              <span id="review-email">-</span><br>
+              <span id="review-phone" class="text-gray-500 mt-1 block"></span>
+            </dd>
+          </div>
+          <div class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-4">
+            <dt class="font-bold text-gray-500">Interest</dt>
+            <dd class="col-span-2 font-medium text-primary" id="review-inquiry">-</dd>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <dt class="font-bold text-gray-500">Message</dt>
+            <dd class="col-span-2 font-medium text-gray-700 italic" id="review-message">-</dd>
+          </div>
+        </dl>
+      </div>
+      
+      <p class="text-xs text-gray-500 text-center mb-8 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+        Your information is securely encrypted and never shared.
+      </p>
+
+      <div class="flex justify-between">
+        <button type="button" class="prev-btn text-gray-500 font-bold hover:text-primary transition-colors flex items-center gap-2 px-4 py-3">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg> Edit
+        </button>
+        <button type="submit" id="submit-btn" class="magnetic-btn relative overflow-hidden bg-secondary text-primary px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 group cursor-pointer">
+          <span class="relative z-10 flex items-center gap-2">
+            Send Message 
+            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+          </span>
+          <span class="btn-glow absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 pointer-events-none" style="background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);"></span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-4 right-4 z-50 transform translate-y-[150%] opacity-0 transition-all duration-300 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 p-4 flex items-start gap-4">
+  <div id="toast-icon" class="flex-shrink-0 mt-0.5"></div>
+  <div class="flex-1">
+    <h4 id="toast-title" class="font-bold text-gray-900 text-sm"></h4>
+    <p id="toast-message" class="text-sm text-gray-500 mt-1"></p>
+  </div>
+  <button id="toast-close" class="text-gray-400 hover:text-gray-600">
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+  </button>
+</div>
+
+<style>
+  @reference "../styles/global.css";
+  /* Form transitions */
+  .form-step.active {
+    position: relative;
+    left: 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .form-step.hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .form-step.slide-left {
+    left: -100%;
+  }
+  
+  /* Input error state */
+  input.invalid, select.invalid, textarea.invalid {
+    @apply border-red-500 ring-1 ring-red-500 bg-red-50;
+  }
+  
+  /* Magnetic Button CSS */
+  .btn-glow {
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  }
+  .magnetic-btn:hover .btn-glow {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Elements
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const progressBar = document.getElementById('progress-bar');
+  const stepIndicators = document.querySelectorAll('.step-indicator');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  
+  // Toast Elements
+  const toast = document.getElementById('toast');
+  const toastTitle = document.getElementById('toast-title');
+  const toastMessage = document.getElementById('toast-message');
+  const toastIcon = document.getElementById('toast-icon');
+  const toastClose = document.getElementById('toast-close');
+
+  let currentStep = 1;
+
+  // Validation Rules
+  const validators = {
+    name: (val: string) => val.trim().length > 2,
+    email: (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
+    inquiry: (val: string) => val !== '',
+    message: (val: string) => val.trim().length >= 10
+  };
+
+  // Setup Event Listeners after DOM loads
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // Real-time validation
+    form?.querySelectorAll('input, select, textarea').forEach(input => {
+      input.addEventListener('blur', (e) => validateField(e.target as HTMLInputElement));
+      input.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.classList.contains('invalid')) validateField(target);
+      });
+    });
+
+    // Navigation buttons
+    document.querySelectorAll('.next-btn').forEach(btn => {
+      btn.addEventListener('click', () => updateStep(currentStep + 1));
+    });
+    
+    document.querySelectorAll('.prev-btn').forEach(btn => {
+      btn.addEventListener('click', () => updateStep(currentStep - 1));
+    });
+
+    toastClose?.addEventListener('click', hideToast);
+    
+    // Form Submit
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateStep(3)) return; // Final check
+      
+      const originalText = submitBtn.innerHTML;
+      
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span class="flex items-center gap-2"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...</span>`;
+      
+      try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        showToast('success', 'Message Sent Successfully', 'Thank you for reaching out. Our team will get back to you within 24 hours.');
+        form.reset();
+        updateStep(1); // Reset to first step
+        
+      } catch (error) {
+        showToast('error', 'Failed to Send', 'We encountered a network error. Please try again later.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    });
+
+    // Magnetic button effect
+    const btnEl = document.querySelector('.magnetic-btn');
+    if (btnEl instanceof HTMLElement) {
+      btnEl.addEventListener('mousemove', (e) => {
+        const rect = btnEl.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const glow = btnEl.querySelector('.btn-glow') as HTMLElement;
+        if (glow) {
+          glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.6) 0%, transparent 70%)`;
+        }
+      });
+      
+      btnEl.addEventListener('mouseleave', () => {
+        const glow = btnEl.querySelector('.btn-glow') as HTMLElement;
+        if (glow) {
+          glow.style.background = 'radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 70%)';
+        }
+      });
+    }
+  });
+
+  function validateField(input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): boolean {
+    const id = input.id as keyof typeof validators;
+    if (!validators[id]) return true; // Skip non-required validation if not strictly defined
+    
+    const isValid = validators[id](input.value);
+    const errorMsg = document.getElementById(`${id}-error`);
+    
+    if (!isValid) {
+      input.classList.add('invalid');
+      if (errorMsg) errorMsg.classList.remove('hidden');
+    } else {
+      input.classList.remove('invalid');
+      if (errorMsg) errorMsg.classList.add('hidden');
+    }
+    
+    return isValid;
+  }
+
+  function validateStep(stepNum: number): boolean {
+    const stepEl = document.querySelector(`.form-step[data-step="${stepNum}"]`);
+    if (!stepEl) return true;
+    
+    const inputs = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+      if (!validateField(input as HTMLInputElement)) {
+        isValid = false;
+      }
+    });
+    
+    return isValid;
+  }
+
+  function updateReviewStep() {
+    const data = new FormData(form);
+    const el = (id: string) => { const e = document.getElementById(id); if (e) e.textContent = (data.get(id.replace('review-', '')) as string) || ''; };
+    
+    el('review-name');
+    el('review-email');
+    el('review-phone');
+    el('review-inquiry');
+    el('review-message');
+  }
+
+  function updateStep(newStep: number) {
+    if (newStep > currentStep && !validateStep(currentStep)) return;
+    
+    // Animate out current
+    const currentEl = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+    if (currentEl) {
+      currentEl.classList.remove('active');
+      if (newStep > currentStep) {
+        currentEl.classList.add('slide-left');
+      } else {
+        currentEl.classList.remove('slide-left');
+      }
+      setTimeout(() => currentEl.classList.add('hidden'), 500);
+    }
+    
+    // Prepare Review if last step
+    if (newStep === 3) updateReviewStep();
+
+    // Animate in new
+    const newEl = document.querySelector(`.form-step[data-step="${newStep}"]`);
+    if (newEl) {
+      newEl.classList.remove('hidden');
+      if (newStep < currentStep) {
+        newEl.classList.remove('slide-left');
+      }
+      // slight delay to allow display block to apply before animating opacity
+      setTimeout(() => newEl.classList.add('active'), 50);
+    }
+
+    currentStep = newStep;
+    
+    // Update progress bar
+    if (progressBar) progressBar.style.width = `${(currentStep / 3) * 100}%`;
+    
+    // Update indicators
+    stepIndicators.forEach(ind => {
+      const num = parseInt(ind.getAttribute('data-step') || '0');
+      if (num <= currentStep) {
+        ind.classList.replace('text-gray-300', 'text-primary');
+      } else {
+        ind.classList.replace('text-primary', 'text-gray-300');
+      }
+    });
+  }
+
+  // Toast Function
+  function showToast(type: 'success' | 'error', title: string, message: string) {
+    if (!toast || !toastTitle || !toastMessage || !toastIcon) return;
+    
+    toastTitle.textContent = title;
+    toastMessage.textContent = message;
+    
+    toast.className = `fixed bottom-4 right-4 z-50 transform translate-y-[150%] opacity-0 transition-all duration-500 max-w-sm w-full bg-white rounded-xl shadow-2xl border-l-4 p-4 flex items-start gap-4`;
+    
+    if (type === 'success') {
+      toast.classList.add('border-green-500');
+      toastIcon.innerHTML = `<div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"><svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>`;
+    } else {
+      toast.classList.add('border-red-500');
+      toastIcon.innerHTML = `<div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center"><svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></div>`;
+    }
+    
+    // Show
+    setTimeout(() => {
+      toast.classList.remove('translate-y-[150%]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+    }, 100);
+    
+    // Auto hide
+    setTimeout(() => {
+      hideToast();
+    }, 5000);
+  }
+
+  function hideToast() {
+    if (!toast) return;
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('translate-y-[150%]', 'opacity-0');
+  }
+</script>

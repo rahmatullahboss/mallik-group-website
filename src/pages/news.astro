@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import NewsCard from '../components/NewsCard.astro';
+
+const news = [
+  { 
+    title: 'Mallik Group Expands Operations', 
+    excerpt: 'We are excited to announce our expansion into new markets, bringing our expertise to more communities than ever before.', 
+    date: 'March 10, 2026' 
+  },
+  { 
+    title: 'New Education Initiative Launched', 
+    excerpt: 'Mallik Education Network introduces new programs designed to equip students with skills for the future.', 
+    date: 'February 28, 2026' 
+  },
+  { 
+    title: 'Property Development Project Complete', 
+    excerpt: 'Our latest residential project is now open for residents, offering modern living spaces in prime locations.', 
+    date: 'January 15, 2026' 
+  },
+  { 
+    title: 'Immigration Services Recognition', 
+    excerpt: 'Mallik Immigration Ltd receives recognition for outstanding service in helping families reunite.', 
+    date: 'December 20, 2025' 
+  },
+  { 
+    title: 'Enterprise Development Program', 
+    excerpt: 'Messrs Mallik Enterprise launches new program to support small businesses and entrepreneurs.', 
+    date: 'November 10, 2025' 
+  },
+  { 
+    title: 'Community Outreach Initiative', 
+    excerpt: 'Mallik Group launches community outreach program to support local communities.', 
+    date: 'October 5, 2025' 
+  },
+];
+---
+
+<Layout title="News" description="Latest news and updates from Mallik Group PLC.">
+  <Hero title="Latest News" />
+  
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionTitle 
+        title="News & Updates" 
+        subtitle="Stay informed about the latest developments at Mallik Group."
+      />
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        {news.map((item) => (
+          <NewsCard {...item} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

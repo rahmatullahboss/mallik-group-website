@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import CompanyCard from '../components/CompanyCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+import CTA from '../components/CTA.astro';
+
+const companies = [
+  { name: 'Mallik Immigration Ltd', description: 'Professional immigration and visa services for individuals and businesses.', href: '/companies/immigration' },
+  { name: 'Mallik Properties Ltd', description: 'Real estate development, property management, and investment services.', href: '/companies/properties' },
+  { name: 'Messrs Mallik Enterprise', description: 'Diverse business solutions and enterprise development programs.', href: '/companies/enterprise' },
+  { name: 'Mallik Education Network', description: 'Quality education and training for future leaders.', href: '/companies/education' },
+];
+
+const news = [
+  { title: 'Mallik Group Expands Operations', excerpt: 'We are excited to announce our expansion into new markets.', date: 'March 2026' },
+  { title: 'New Education Initiative Launched', excerpt: 'Mallik Education Network introduces new programs.', date: 'February 2026' },
+  { title: 'Property Development Project Complete', excerpt: 'Our latest residential project is now open for residents.', date: 'January 2026' },
+];
+---
+
+<Layout title="Home" description="Mallik Group PLC - A diversified business group with expertise in immigration, properties, enterprise, and education.">
+  <!-- Hero Section -->
+  <Hero />
+  
+  <main id="main-content">
+    <!-- About Section -->
+    <section class="py-24 bg-white animate-fade-in-up" style="animation-delay: 0.2s;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <SectionTitle title="About Mallik Group" centered={false} theme="light" />
+            <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+              Mallik Group PLC is a diversified business group with a strong presence across multiple industries. 
+              Our commitment to excellence and innovation has made us a trusted name in immigration services, 
+              real estate, business enterprise, and education.
+            </p>
+            <p class="text-gray-600 text-lg leading-relaxed">
+              We believe in sustainable growth and creating value for all our stakeholders. Our team of 
+              dedicated professionals works tirelessly to deliver exceptional results.
+            </p>
+          </div>
+          <div class="bg-gray-100 rounded-2xl h-96 flex items-center justify-center shadow-inner overflow-hidden relative group">
+            <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-multiply"></div>
+            <span class="text-gray-400 font-medium">Authentic Photography Placeholder</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Companies Section (Glassmorphism design requires dark background) -->
+    <section id="companies" class="py-24 bg-primary relative overflow-hidden">
+      <!-- Subtle background elements for depth -->
+      <div class="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 rounded-full bg-secondary opacity-10 blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-blue-500 opacity-10 blur-3xl"></div>
+      
+      <div class="relative z-10">
+        <SectionTitle 
+          title="Our Companies" 
+          subtitle="Discover our diverse portfolio of companies serving various industries."
+          theme="dark"
+        />
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {companies.map((company) => (
+              <CompanyCard {...company} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Chairman Message Preview -->
+    <section class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="bg-gray-100 rounded-2xl h-96 flex items-center justify-center shadow-inner order-2 md:order-1 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-multiply"></div>
+            <span class="text-gray-400 font-medium">Chairman Photo Placeholder</span>
+          </div>
+          <div class="order-1 md:order-2">
+            <SectionTitle title="Message from Our Chairman" centered={false} theme="light" />
+            <blockquote class="text-xl text-gray-700 italic mb-8 border-l-4 border-secondary pl-6 leading-relaxed">
+              "At Mallik Group, we are committed to making a positive impact in every community we serve. 
+              Our vision is to be the most trusted and respected business group in our industries."
+            </blockquote>
+            <a href="/chairman" class="inline-flex items-center text-secondary font-bold hover:text-primary transition-colors duration-300 uppercase tracking-wide text-sm">
+              Read Full Message 
+              <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Why Choose Us -->
+    <section class="py-24 bg-gray-50">
+      <SectionTitle 
+        title="Why Choose Us" 
+        subtitle="Our commitment to excellence sets us apart."
+        theme="light"
+      />
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <div class="grid md:grid-cols-3 gap-10">
+          <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 text-center group">
+            <div class="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-primary mb-3 font-heading">Trusted Expertise</h3>
+            <p class="text-gray-600 leading-relaxed">Years of established experience and proven success in every industry we serve globally.</p>
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 text-center group">
+            <div class="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-primary mb-3 font-heading">Innovation</h3>
+            <p class="text-gray-600 leading-relaxed">Pioneering modern solutions to tackle today's complex challenges efficiently.</p>
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 text-center group">
+            <div class="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-primary mb-3 font-heading">Client Focus</h3>
+            <p class="text-gray-600 leading-relaxed">Your continued success and satisfaction remain our absolute top priority.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA -->
+    <CTA 
+      title="Ready to Work With Us?"
+      description="Contact us today to learn more about how we can help you achieve your goals and build a better future together."
+      buttonText="Get in Touch"
+      buttonHref="/contact"
+    />
+  </main>
+</Layout>

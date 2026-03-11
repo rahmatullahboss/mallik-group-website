@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  centered?: boolean;
+  theme?: 'dark' | 'light';
+}
+
+const { title, subtitle, centered = true, theme = 'light' } = Astro.props;
+---
+
+<section class={`py-12 ${centered ? 'text-center' : ''}`}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class={`text-3xl md:text-4xl font-bold font-heading mb-4 ${theme === 'light' ? 'text-primary' : 'text-white'}`}>
+      {title}
+    </h2>
+    {subtitle && (
+      <p class={`text-lg max-w-2xl ${centered ? 'mx-auto' : ''} ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+        {subtitle}
+      </p>
+    )}
+    <div class={`w-24 h-1 bg-secondary mt-6 ${centered ? 'mx-auto' : ''}`}></div>
+  </div>
+</section>

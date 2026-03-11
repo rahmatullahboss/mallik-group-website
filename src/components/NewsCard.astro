@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  excerpt: string;
+  date: string;
+  href?: string;
+}
+
+const { title, excerpt, date, href = '#' } = Astro.props;
+---
+
+<article class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden">
+  <div class="p-6">
+    <p class="text-sm text-gray-500 mb-2">{date}</p>
+    <h3 class="text-xl font-bold text-primary font-heading mb-3">
+      {title}
+    </h3>
+    <p class="text-gray-600 mb-4">
+      {excerpt}
+    </p>
+    <a 
+      href={href}
+      class="text-secondary font-semibold hover:underline"
+    >
+      Read More →
+    </a>
+  </div>
+</article>

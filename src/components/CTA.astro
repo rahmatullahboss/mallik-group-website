@@ -1,0 +1,82 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  buttonText: string;
+  buttonHref: string;
+}
+
+const { title, description, buttonText, buttonHref } = Astro.props;
+---
+
+<section class="bg-secondary py-24 relative overflow-hidden">
+  <!-- Subtle pattern background -->
+  <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml,%3Csvg viewBox=%270 0 200 200%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noiseFilter%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.65%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noiseFilter)%27/%3E%3C/svg%3E')]"></div>
+  
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <h2 class="text-4xl md:text-5xl font-black text-primary font-heading mb-6 tracking-tight">
+      {title}
+    </h2>
+    {description && (
+      <p class="text-xl text-primary/80 mb-10 max-w-2xl mx-auto font-medium">
+        {description}
+      </p>
+    )}
+    
+    <a 
+      href={buttonHref}
+      class="magnetic-cta relative inline-flex items-center justify-center bg-primary text-white font-bold text-lg px-10 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 group"
+    >
+      <span class="relative z-10 flex items-center gap-2">
+        {buttonText}
+        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </span>
+      <span class="btn-glow absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none" style="background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);"></span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .magnetic-cta:hover .btn-glow {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Magnetic button effect for CTA
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctaBtns = document.querySelectorAll('.magnetic-cta');
+    
+    ctaBtns.forEach((btn) => {
+      if (btn instanceof HTMLElement) {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          // Move the button slightly towards the mouse
+          const xMovement = (x - rect.width / 2) * 0.1;
+          const yMovement = (y - rect.height / 2) * 0.1;
+          
+          btn.style.transform = `translate(${xMovement}px, ${yMovement}px) scale(1.02)`;
+          
+          // Move the glow effect to follow cursor
+          const glow = btn.querySelector('.btn-glow') as HTMLElement;
+          if (glow) {
+            glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.4) 0%, transparent 70%)`;
+          }
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0px, 0px) scale(1)';
+          const glow = btn.querySelector('.btn-glow') as HTMLElement;
+          if (glow) {
+            glow.style.background = 'radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)';
+          }
+        });
+      }
+    });
+  });
+</script>

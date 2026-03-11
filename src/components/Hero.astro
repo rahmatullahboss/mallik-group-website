@@ -1,0 +1,94 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+const { 
+  title = "Building Tomorrow, Today",
+  subtitle = "Mallik Group PLC" 
+} = Astro.props;
+---
+
+<!-- Skip to main content link -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-primary focus:rounded-md">
+  Skip to main content
+</a>
+
+<!-- Hero with role="banner" -->
+<section 
+  role="banner" 
+  aria-label="Hero section" 
+  class="relative min-h-[80vh] flex items-center justify-center overflow-hidden"
+  itemtype="https://schema.org/Organization" 
+  itemscope
+>
+  <!-- Gradient overlay - REVERSED: darker at top for depth -->
+  <div class="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/60 to-primary/30"></div>
+  
+  <!-- Grain texture - inline base64 SVG -->
+  <div class="absolute inset-0 opacity-[0.04] bg-[url('data:image/svg+xml,%3Csvg viewBox=%270 0 200 200%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noiseFilter%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.65%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noiseFilter)%27/%3E%3C/svg%3E')]"></div>
+  
+  <!-- Content -->
+  <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+    <!-- Overline -->
+    <p class="text-secondary uppercase tracking-[0.2em] text-sm mb-6 animate-fade-in" aria-hidden="true">
+      {subtitle}
+    </p>
+    
+    <!-- Main headline -->
+    <h1 
+      class="text-white font-black leading-tight animate-fade-in-up" 
+      style="font-size: clamp(1.5rem, 5vw, 6rem); letter-spacing: -0.03em; text-shadow: 0 4px 20px rgba(0,0,0,0.3);"
+    >
+      {title}
+      <!-- Animated underline -->
+      <span class="block h-1 bg-secondary mt-4 mx-auto animate-draw-underline" style="width: clamp(100px, 20vw, 200px);"></span>
+    </h1>
+    
+    <!-- Quick links -->
+    <nav 
+      class="mt-10 flex flex-wrap justify-center gap-3 sm:gap-4" 
+      aria-label="Company quick links"
+      role="navigation"
+      tabindex="0"
+    >
+      <a href="/companies/immigration" class="quick-link" aria-describedby="immigration-desc">
+        Immigration
+        <span id="immigration-desc" class="sr-only">- Visa and permit services</span>
+      </a>
+      <a href="/companies/properties" class="quick-link" aria-describedby="properties-desc">
+        Properties
+        <span id="properties-desc" class="sr-only">- Real estate and investment</span>
+      </a>
+      <a href="/companies/enterprise" class="quick-link" aria-describedby="enterprise-desc">
+        Enterprise
+        <span id="enterprise-desc" class="sr-only">- Business solutions</span>
+      </a>
+      <a href="/companies/education" class="quick-link" aria-describedby="education-desc">
+        Education
+        <span id="education-desc" class="sr-only">- Training and courses</span>
+      </a>
+    </nav>
+  </div>
+  
+  <!-- Scroll indicator - links to companies section -->
+  <a 
+    href="#companies" 
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-transparent rounded-full p-2"
+    aria-label="Scroll to see our companies"
+  >
+    <svg class="w-8 h-8 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </a>
+  
+  <!-- Organization Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Mallik Group PLC",
+    "url": Astro.url ? Astro.url.origin : "https://mallikgroup.com",
+    "logo": `${Astro.url ? Astro.url.origin : "https://mallikgroup.com"}/logo.svg`,
+    "description": "A diversified business group with expertise in immigration, properties, enterprise, and education."
+  })} />
+</section>
