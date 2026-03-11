@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://mallikgroup.com',
   build: {
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'always'
   },
   vite: {
     plugins: [tailwindcss()]
