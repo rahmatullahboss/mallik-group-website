@@ -23,10 +23,13 @@ const { title, description = "Mallik Group PLC - A diversified business group" }
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Mallik Group PLC" />
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts - optimized loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    </noscript>
   </head>
   <body class="bg-gray-50 text-gray-800">
     <slot />
