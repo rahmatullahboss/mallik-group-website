@@ -1,5 +1,7 @@
-import { getDb } from '../../../src/db/index.js';
-import { news } from '../../../src/db/schema.js';
+import type { APIContext } from 'astro';
+import { env } from 'cloudflare:workers';
+import { getDb } from '../../../db/index.js';
+import { news } from '../../../db/schema.js';
 import { eq } from 'drizzle-orm';
 
 /**
@@ -10,18 +12,14 @@ import { eq } from 'drizzle-orm';
  * DELETE /api/admin/news?id=X   - Delete news
  */
 
-function getDb_(env) {
-  return getDb(env.NEON_DATABASE_URL);
-}
-
-export async function onRequestGet(context) {
-  const db = getDb_(context.env);
+export async function GET(_context: APIContext) {
+  const db = getDb(env.NEON_DATABASE_URL);
   const items = await db.select().from(news).orderBy(news.createdAt);
   return Response.json(items);
 }
 
-export async function onRequestPost(context) {
-  const db = getDb_(context.env);
+export async function POST(context: APIContext) {
+  const db = getDb(env.NEON_DATABASE_URL);
   const body = await context.request.json();
   const { title, excerpt, content, date, published } = body;
   if (!title || !excerpt || !content || !date) {
@@ -31,8 +29,8 @@ export async function onRequestPost(context) {
   return Response.json(item, { status: 201 });
 }
 
-export async function onRequestPut(context) {
-  const db = getDb_(context.env);
+export async function PUT(context: APIContext) {
+  const db = getDb(env.NEON_DATABASE_URL);
   const url = new URL(context.request.url);
   const id = Number(url.searchParams.get('id'));
   if (!id) return Response.json({ error: 'ID required' }, { status: 400 });
@@ -43,8 +41,8 @@ export async function onRequestPut(context) {
   return Response.json(item);
 }
 
-export async function onRequestDelete(context) {
-  const db = getDb_(context.env);
+export async function DELETE(context: APIContext) {
+  const db = getDb(env.NEON_DATABASE_URL);
   const url = new URL(context.request.url);
   const id = Number(url.searchParams.get('id'));
   if (!id) return Response.json({ error: 'ID required' }, { status: 400 });

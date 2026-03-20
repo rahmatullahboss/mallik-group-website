@@ -1,5 +1,7 @@
-import { getDb } from '../../../src/db/index.js';
-import { contactSubmissions } from '../../../src/db/schema.js';
+import type { APIContext } from 'astro';
+import { env } from 'cloudflare:workers';
+import { getDb } from '../../../db/index.js';
+import { contactSubmissions } from '../../../db/schema.js';
 import { eq } from 'drizzle-orm';
 
 /**
@@ -8,14 +10,14 @@ import { eq } from 'drizzle-orm';
  * PUT /api/admin/contacts?id=X   - Toggle read/unread
  */
 
-export async function onRequestGet(context) {
-  const db = getDb(context.env.NEON_DATABASE_URL);
+export async function GET(_context: APIContext) {
+  const db = getDb(env.NEON_DATABASE_URL);
   const items = await db.select().from(contactSubmissions).orderBy(contactSubmissions.createdAt);
   return Response.json(items);
 }
 
-export async function onRequestPut(context) {
-  const db = getDb(context.env.NEON_DATABASE_URL);
+export async function PUT(context: APIContext) {
+  const db = getDb(env.NEON_DATABASE_URL);
   const url = new URL(context.request.url);
   const id = Number(url.searchParams.get('id'));
   if (!id) return Response.json({ error: 'ID required' }, { status: 400 });

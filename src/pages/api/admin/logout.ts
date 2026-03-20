@@ -1,8 +1,10 @@
+import type { APIContext } from 'astro';
+
 /**
  * Admin Logout API
  * POST /api/admin/logout - Clear session cookie
  */
-export async function onRequestPost() {
+export async function POST(_context: APIContext) {
   return Response.json(
     { success: true },
     {

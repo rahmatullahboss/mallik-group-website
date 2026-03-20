@@ -1,3 +1,6 @@
+import type { APIContext } from 'astro';
+import { env } from 'cloudflare:workers';
+
 /**
  * Admin Auth API
  * POST /api/admin/login  - Login with credentials, set JWT cookie
@@ -31,9 +34,8 @@ async function verifyJWT(token: string, secret: string): Promise<boolean> {
   }
 }
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
-  const body = await request.json();
+export async function POST(context: APIContext) {
+  const body = await context.request.json();
   const { username, password } = body;
 
   if (username !== env.ADMIN_USERNAME || password !== env.ADMIN_PASSWORD) {
@@ -55,9 +57,8 @@ export async function onRequestPost(context) {
   );
 }
 
-export async function onRequestGet(context) {
-  const { request, env } = context;
-  const cookie = request.headers.get('Cookie') ?? '';
+export async function GET(context: APIContext) {
+  const cookie = context.request.headers.get('Cookie') ?? '';
   const token = cookie.split(';').find(c => c.trim().startsWith('admin_token='))?.split('=')[1];
   if (!token || !(await verifyJWT(token, env.JWT_SECRET))) {
     return Response.json({ authenticated: false }, { status: 401 });

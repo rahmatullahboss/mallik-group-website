@@ -1,14 +1,15 @@
-import { getDb } from '../../src/db/index.js';
-import { contactSubmissions } from '../../src/db/schema.js';
+import type { APIContext } from 'astro';
+import { env } from 'cloudflare:workers';
+import { getDb } from '../../db/index.js';
+import { contactSubmissions } from '../../db/schema.js';
 
 /**
  * Contact Form API Endpoint
  * POST /api/contact - Save to Neon DB + send email via Resend
  */
-export async function onRequestPost(context) {
+export async function POST(context: APIContext) {
   try {
-    const { request, env } = context;
-    const formData = await request.formData();
+    const formData = await context.request.formData();
 
     const name = formData.get('name')?.toString() ?? '';
     const email = formData.get('email')?.toString() ?? '';
