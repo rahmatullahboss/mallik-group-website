@@ -1,0 +1,146 @@
+---
+interface Props {
+  title: string;
+  activePage?: 'dashboard' | 'news' | 'contacts' | 'companies';
+}
+const { title, activePage = 'dashboard' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Mallik Admin</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f1f5f9; display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px; flex-shrink: 0;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-right: 1px solid #1e293b;
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; height: 100vh; z-index: 50;
+      overflow-y: auto;
+    }
+    .sidebar-logo { padding: 28px 24px 20px; border-bottom: 1px solid #1e293b; }
+    .sidebar-logo .brand { font-size: 18px; font-weight: 700; color: #f8fafc; }
+    .sidebar-logo .sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .sidebar-logo .badge {
+      display: inline-block; background: #fbbf24; color: #1c1917;
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-top: 8px;
+    }
+    .nav { padding: 16px 12px; flex: 1; }
+    .nav-section { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #475569; padding: 8px 12px 4px; }
+    .nav a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 10px; margin-bottom: 2px;
+      color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500;
+      transition: all .2s;
+    }
+    .nav a:hover { background: #1e293b; color: #f1f5f9; }
+    .nav a.active { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1c1917; }
+    .nav a svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .sidebar-footer { padding: 16px 12px; border-top: 1px solid #1e293b; }
+    .logout-btn {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      padding: 10px 12px; border-radius: 10px; border: none;
+      background: transparent; color: #94a3b8; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: all .2s; text-align: left;
+    }
+    .logout-btn:hover { background: #7f1d1d; color: #fca5a5; }
+    .logout-btn svg { width: 18px; height: 18px; }
+
+    /* Main content */
+    .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+    .topbar {
+      background: #1e293b; border-bottom: 1px solid #334155;
+      padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 40;
+    }
+    .topbar h1 { font-size: 20px; font-weight: 600; color: #f1f5f9; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: #1c1917;
+    }
+    .content { padding: 32px; flex: 1; }
+
+    /* Utility */
+    .badge-published { background: #166534; color: #86efac; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .badge-draft { background: #1e293b; color: #94a3b8; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .badge-unread { background: #1e3a5f; color: #60a5fa; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .badge-read { background: #1e293b; color: #64748b; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">Mallik Group</div>
+      <div class="sub">Admin Panel</div>
+      <span class="badge">ADMIN</span>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Main</div>
+      <a href="/admin" class={activePage === 'dashboard' ? 'active' : ''}>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        Dashboard
+      </a>
+      <div class="nav-section">Content</div>
+      <a href="/admin/news" class={activePage === 'news' ? 'active' : ''}>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+        News
+      </a>
+      <a href="/admin/companies" class={activePage === 'companies' ? 'active' : ''}>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        Companies
+      </a>
+      <div class="nav-section">Inbox</div>
+      <a href="/admin/contacts" class={activePage === 'contacts' ? 'active' : ''}>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Contact Submissions
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" id="logout-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <h1>{title}</h1>
+      <div class="topbar-right">
+        <div class="avatar">A</div>
+      </div>
+    </header>
+    <main class="content">
+      <slot />
+    </main>
+  </div>
+
+  <script>
+    // Auth guard
+    (async () => {
+      const res = await fetch('/api/admin/login');
+      if (!res.ok) window.location.href = '/admin/login';
+    })();
+
+    // Logout
+    document.getElementById('logout-btn')?.addEventListener('click', async () => {
+      await fetch('/api/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    });
+  </script>
+</body>
+</html>

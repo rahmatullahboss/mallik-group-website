@@ -1,0 +1,111 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+const companies = [
+  { slug: 'immigration', name: 'Mallik Immigration Ltd', description: 'Professional immigration and visa services for individuals and businesses.' },
+  { slug: 'properties', name: 'Mallik Properties Ltd', description: 'Real estate development, property management, and investment services.' },
+  { slug: 'enterprise', name: 'Messrs Mallik Enterprise', description: 'Diverse business solutions and enterprise development programs.' },
+  { slug: 'education', name: 'Mallik Education Network', description: 'Quality education and training for future leaders.' },
+];
+---
+
+<AdminLayout title="Companies" activePage="companies">
+  <p style="color:#64748b;font-size:14px;margin-bottom:24px;">Edit the name and description for each company. Changes are reflected on the public website.</p>
+
+  <div id="companies-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    {companies.map(company => (
+      <div class="company-card" data-slug={company.slug}>
+        <div class="card-header">
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <span class="card-badge">{company.slug}</span>
+        </div>
+        <div class="field">
+          <label>Company Name</label>
+          <input type="text" class="name-input" value={company.name} data-slug={company.slug} placeholder="Company name" />
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea class="desc-input" data-slug={company.slug} rows="3" placeholder="Short description...">{company.description}</textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+          <button class="save-btn" data-slug={company.slug}>Save Changes</button>
+          <span class="save-status" data-slug={company.slug} style="font-size:13px;color:#34d399;display:none;">✓ Saved</span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <style>
+    .company-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 24px;
+    }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .card-icon {
+      width: 40px; height: 40px; background: rgba(251,191,36,.15); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; color: #fbbf24;
+    }
+    .card-badge {
+      background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+      font-size: 11px; font-weight: 700; padding: 3px 10px; color: #64748b; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .field { margin-bottom: 14px; }
+    label { display: block; font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+    input[type=text], textarea {
+      width: 100%; padding: 10px 14px;
+      background: #0f172a; border: 1px solid #334155; border-radius: 8px;
+      color: #f1f5f9; font-size: 14px; outline: none; resize: vertical; font-family: inherit;
+    }
+    input[type=text]:focus, textarea:focus { border-color: #fbbf24; }
+    .save-btn {
+      background: linear-gradient(135deg,#fbbf24,#f59e0b); border: none; border-radius: 8px;
+      color: #1c1917; font-size: 13px; font-weight: 700; padding: 9px 18px; cursor: pointer;
+    }
+    .save-btn:hover { opacity: .88; }
+    .save-btn:disabled { opacity: .5; cursor: not-allowed; }
+  </style>
+
+  <script>
+    // Load saved data from API and populate fields
+    async function loadCompanies() {
+      try {
+        const res = await fetch('/api/admin/companies');
+        const saved = await res.json();
+        saved.forEach(item => {
+          const nameInput = document.querySelector(`.name-input[data-slug="${item.slug}"]`);
+          const descInput = document.querySelector(`.desc-input[data-slug="${item.slug}"]`);
+          if (nameInput) nameInput.value = item.name;
+          if (descInput) descInput.value = item.description;
+        });
+      } catch { /* use defaults */ }
+    }
+
+    document.querySelectorAll('.save-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const slug = btn.dataset.slug;
+        const name = document.querySelector(`.name-input[data-slug="${slug}"]`).value;
+        const description = document.querySelector(`.desc-input[data-slug="${slug}"]`).value;
+        const statusEl = document.querySelector(`.save-status[data-slug="${slug}"]`);
+
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+
+        await fetch(`/api/admin/companies?slug=${slug}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, description }),
+        });
+
+        btn.disabled = false;
+        btn.textContent = 'Save Changes';
+        statusEl.style.display = 'inline';
+        setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+      });
+    });
+
+    loadCompanies();
+  </script>
+</AdminLayout>

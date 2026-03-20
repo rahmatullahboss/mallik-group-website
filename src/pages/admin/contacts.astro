@@ -1,0 +1,151 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Contact Submissions" activePage="contacts">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+    <p style="color:#64748b;font-size:14px;" id="contacts-count">Loading...</p>
+    <div style="display:flex;gap:8px;">
+      <button class="filter-btn active" data-filter="all" id="filter-all">All</button>
+      <button class="filter-btn" data-filter="unread" id="filter-unread">Unread</button>
+      <button class="filter-btn" data-filter="read" id="filter-read">Read</button>
+    </div>
+  </div>
+
+  <div id="contacts-list"></div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="modal" style="display:none;">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 style="font-size:18px;font-weight:700;color:#f8fafc;" id="modal-name">Name</h2>
+        <button id="close-modal" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:22px;">✕</button>
+      </div>
+      <div id="modal-body"></div>
+      <div style="margin-top:20px;">
+        <button class="btn-primary" id="toggle-read-btn">Mark as Read</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .btn-primary {
+      background: linear-gradient(135deg,#fbbf24,#f59e0b); border: none; border-radius: 10px;
+      color: #1c1917; font-size: 14px; font-weight: 700; padding: 10px 20px; cursor: pointer;
+    }
+    .filter-btn {
+      background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+      color: #94a3b8; font-size: 13px; padding: 7px 16px; cursor: pointer;
+    }
+    .filter-btn:hover { background: #334155; color: #f1f5f9; }
+    .filter-btn.active { background: #fbbf24; border-color: #fbbf24; color: #1c1917; font-weight: 700; }
+
+    .contact-row {
+      background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      cursor: pointer; transition: background .15s;
+    }
+    .contact-row.unread { border-left: 3px solid #60a5fa; }
+    .contact-row:hover { background: #243044; }
+    .contact-name { font-size: 15px; font-weight: 600; color: #f1f5f9; }
+    .contact-email { font-size: 13px; color: #64748b; margin-top: 2px; }
+    .contact-preview { font-size: 13px; color: #94a3b8; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .contact-date { font-size: 12px; color: #475569; white-space: nowrap; }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.7);
+      display: flex; align-items: center; justify-content: center; z-index: 100; padding: 24px;
+    }
+    .modal-box { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 32px; width: 100%; max-width: 520px; }
+    .info-row { display: flex; gap: 12px; margin-bottom: 12px; font-size: 14px; }
+    .info-row .lbl { color: #64748b; min-width: 60px; }
+    .info-row .val { color: #f1f5f9; }
+    .msg-box { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 16px; color: #cbd5e1; font-size: 14px; line-height: 1.7; margin-top: 16px; white-space: pre-wrap; }
+  </style>
+
+  <script>
+    let contacts = [];
+    let currentFilter = 'all';
+    let currentId = null;
+
+    async function loadContacts() {
+      const res = await fetch('/api/admin/contacts');
+      contacts = await res.json();
+      render();
+    }
+
+    function render() {
+      const filtered = currentFilter === 'all' ? contacts
+        : currentFilter === 'unread' ? contacts.filter(c => !c.read)
+        : contacts.filter(c => c.read);
+
+      const unreadCount = contacts.filter(c => !c.read).length;
+      document.getElementById('contacts-count').textContent =
+        `${contacts.length} total · ${unreadCount} unread`;
+
+      const el = document.getElementById('contacts-list');
+      if (filtered.length === 0) {
+        el.innerHTML = '<p style="color:#64748b;text-align:center;padding:48px;">No submissions found.</p>';
+        return;
+      }
+      el.innerHTML = filtered.map(c => `
+        <div class="contact-row ${!c.read ? 'unread' : ''}" onclick="openContact(${c.id})">
+          <div>
+            <div class="contact-name">${c.name} ${!c.read ? '<span class="badge-unread" style="font-size:11px;margin-left:8px;">New</span>' : ''}</div>
+            <div class="contact-email">${c.email}${c.phone ? ' · ' + c.phone : ''}</div>
+            <div class="contact-preview" style="margin-top:6px;">${c.message}</div>
+          </div>
+          <div class="contact-date">${new Date(c.createdAt).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})}</div>
+        </div>
+      `).join('');
+    }
+
+    window.openContact = (id) => {
+      currentId = id;
+      const c = contacts.find(x => x.id === id);
+      document.getElementById('modal-name').textContent = c.name;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="info-row"><span class="lbl">Email</span><span class="val"><a href="mailto:${c.email}" style="color:#60a5fa;">${c.email}</a></span></div>
+        <div class="info-row"><span class="lbl">Phone</span><span class="val">${c.phone || '—'}</span></div>
+        <div class="info-row"><span class="lbl">Date</span><span class="val">${new Date(c.createdAt).toLocaleString('en-GB')}</span></div>
+        <div class="msg-box">${c.message}</div>
+      `;
+      const btn = document.getElementById('toggle-read-btn');
+      btn.textContent = c.read ? 'Mark as Unread' : 'Mark as Read';
+      document.getElementById('modal').style.display = 'flex';
+      if (!c.read) markRead(id, true);
+    };
+
+    async function markRead(id, read) {
+      await fetch(`/api/admin/contacts?id=${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ read })
+      });
+      const idx = contacts.findIndex(c => c.id === id);
+      if (idx >= 0) contacts[idx].read = read;
+      render();
+    }
+
+    document.getElementById('toggle-read-btn').addEventListener('click', async () => {
+      const c = contacts.find(x => x.id === currentId);
+      await markRead(currentId, !c.read);
+      document.getElementById('modal').style.display = 'none';
+    });
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.getElementById('modal').style.display = 'none';
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        render();
+      });
+    });
+
+    loadContacts();
+  </script>
+</AdminLayout>

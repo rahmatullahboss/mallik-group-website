@@ -1,0 +1,183 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="News Management" activePage="news">
+  <!-- Toolbar -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+    <p style="color:#64748b;font-size:14px;" id="news-count">Loading...</p>
+    <button class="btn-primary" id="add-btn">+ Add News</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap" id="news-table-wrap">
+    <p style="color:#64748b;padding:32px;text-align:center;">Loading news...</p>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal" style="display:none;">
+    <div class="modal-box">
+      <h2 class="modal-title" id="modal-title">Add News</h2>
+      <form id="news-form">
+        <input type="hidden" id="news-id" />
+        <div class="field">
+          <label>Title *</label>
+          <input type="text" id="f-title" placeholder="News title" required />
+        </div>
+        <div class="field">
+          <label>Excerpt *</label>
+          <textarea id="f-excerpt" placeholder="Short summary..." rows="2" required></textarea>
+        </div>
+        <div class="field">
+          <label>Content *</label>
+          <textarea id="f-content" placeholder="Full article content..." rows="5" required></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="field">
+            <label>Date *</label>
+            <input type="text" id="f-date" placeholder="e.g. March 2026" required />
+          </div>
+          <div class="field" style="display:flex;align-items:flex-end;padding-bottom:4px;gap:10px;">
+            <input type="checkbox" id="f-published" style="width:18px;height:18px;accent-color:#fbbf24;" />
+            <label for="f-published" style="cursor:pointer;color:#f1f5f9;">Published</label>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;">
+          <button type="submit" class="btn-primary" id="save-btn" style="flex:1;">Save</button>
+          <button type="button" class="btn-ghost" id="cancel-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .btn-primary {
+      background: linear-gradient(135deg,#fbbf24,#f59e0b); border: none; border-radius: 10px;
+      color: #1c1917; font-size: 14px; font-weight: 700; padding: 10px 20px;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .88; }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-ghost {
+      background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+      color: #94a3b8; font-size: 14px; font-weight: 600; padding: 10px 20px; cursor: pointer;
+    }
+    .btn-ghost:hover { background: #334155; }
+    .btn-danger {
+      background: transparent; border: 1px solid #ef4444; border-radius: 8px;
+      color: #ef4444; font-size: 12px; padding: 6px 12px; cursor: pointer;
+    }
+    .btn-danger:hover { background: #7f1d1d; }
+    .btn-edit {
+      background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+      color: #94a3b8; font-size: 12px; padding: 6px 12px; cursor: pointer;
+    }
+    .btn-edit:hover { background: #334155; color: #f1f5f9; }
+
+    .table-wrap { background: #1e293b; border: 1px solid #334155; border-radius: 16px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #64748b; border-bottom: 1px solid #334155; white-space: nowrap; }
+    td { padding: 16px 20px; font-size: 14px; color: #cbd5e1; border-bottom: 1px solid #1e293b; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+    td .title { color: #f1f5f9; font-weight: 500; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.7);
+      display: flex; align-items: center; justify-content: center; z-index: 100; padding: 24px;
+    }
+    .modal-box { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 32px; width: 100%; max-width: 560px; }
+    .modal-title { font-size: 20px; font-weight: 700; color: #f8fafc; margin-bottom: 24px; }
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+    input[type=text], textarea {
+      width: 100%; padding: 10px 14px;
+      background: #0f172a; border: 1px solid #334155; border-radius: 8px;
+      color: #f1f5f9; font-size: 14px; outline: none; resize: vertical; font-family: inherit;
+    }
+    input[type=text]:focus, textarea:focus { border-color: #fbbf24; }
+  </style>
+
+  <script>
+    let newsItems = [];
+
+    async function loadNews() {
+      const res = await fetch('/api/admin/news');
+      newsItems = await res.json();
+      renderTable();
+    }
+
+    function renderTable() {
+      const wrap = document.getElementById('news-table-wrap');
+      document.getElementById('news-count').textContent = `${newsItems.length} total`;
+      if (newsItems.length === 0) {
+        wrap.innerHTML = '<p style="color:#64748b;padding:48px;text-align:center;">No news yet. Add your first news item!</p>';
+        return;
+      }
+      wrap.innerHTML = `<table>
+        <thead><tr>
+          <th>Title</th><th>Date</th><th>Status</th><th style="text-align:right;">Actions</th>
+        </tr></thead>
+        <tbody>
+          ${newsItems.map(n => `<tr>
+            <td><div class="title">${n.title}</div></td>
+            <td>${n.date}</td>
+            <td><span class="${n.published ? 'badge-published' : 'badge-draft'}">${n.published ? 'Published' : 'Draft'}</span></td>
+            <td style="text-align:right;white-space:nowrap;">
+              <button class="btn-edit" onclick="openEdit(${n.id})">Edit</button>
+              <button class="btn-danger" onclick="deleteNews(${n.id})" style="margin-left:8px;">Delete</button>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+    }
+
+    function openModal(item = null) {
+      document.getElementById('modal-title').textContent = item ? 'Edit News' : 'Add News';
+      document.getElementById('news-id').value = item?.id ?? '';
+      document.getElementById('f-title').value = item?.title ?? '';
+      document.getElementById('f-excerpt').value = item?.excerpt ?? '';
+      document.getElementById('f-content').value = item?.content ?? '';
+      document.getElementById('f-date').value = item?.date ?? '';
+      document.getElementById('f-published').checked = item?.published ?? false;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    window.openEdit = async (id) => {
+      const item = newsItems.find(n => n.id === id);
+      openModal(item);
+    };
+
+    window.deleteNews = async (id) => {
+      if (!confirm('Delete this news item?')) return;
+      await fetch(`/api/admin/news?id=${id}`, { method: 'DELETE' });
+      await loadNews();
+    };
+
+    document.getElementById('add-btn').addEventListener('click', () => openModal());
+    document.getElementById('cancel-btn').addEventListener('click', () => { document.getElementById('modal').style.display = 'none'; });
+
+    document.getElementById('news-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('save-btn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      const id = document.getElementById('news-id').value;
+      const body = {
+        title: document.getElementById('f-title').value,
+        excerpt: document.getElementById('f-excerpt').value,
+        content: document.getElementById('f-content').value,
+        date: document.getElementById('f-date').value,
+        published: document.getElementById('f-published').checked,
+      };
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `/api/admin/news?id=${id}` : '/api/admin/news';
+      await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      document.getElementById('modal').style.display = 'none';
+      btn.disabled = false; btn.textContent = 'Save';
+      await loadNews();
+    });
+
+    loadNews();
+  </script>
+</AdminLayout>

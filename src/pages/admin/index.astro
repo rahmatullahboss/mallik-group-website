@@ -1,0 +1,135 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Dashboard" activePage="dashboard">
+  <div id="dashboard-content">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px;" id="stats-grid">
+      <div class="stat-card loading"></div>
+      <div class="stat-card loading"></div>
+      <div class="stat-card loading"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <h2 style="font-size:16px;font-weight:600;color:#f1f5f9;margin-bottom:16px;">Recent Contacts</h2>
+        <div id="recent-contacts"></div>
+      </div>
+      <div>
+        <h2 style="font-size:16px;font-weight:600;color:#f1f5f9;margin-bottom:16px;">Recent News</h2>
+        <div id="recent-news"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .stat-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+      padding: 24px; position: relative; overflow: hidden;
+    }
+    .stat-card.loading { height: 120px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+    .stat-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .stat-icon svg { width: 24px; height: 24px; }
+    .stat-value { font-size: 36px; font-weight: 700; color: #f8fafc; line-height: 1; }
+    .stat-label { font-size: 13px; color: #64748b; margin-top: 4px; }
+    .stat-card .glow {
+      position: absolute; right: -20px; top: -20px;
+      width: 100px; height: 100px; border-radius: 50%; opacity: .1; filter: blur(20px);
+    }
+    .mini-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mini-card .title { font-size: 14px; font-weight: 500; color: #f1f5f9; }
+    .mini-card .meta { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .view-all {
+      display: inline-block; margin-top: 12px;
+      color: #fbbf24; font-size: 13px; font-weight: 600; text-decoration: none;
+    }
+    .view-all:hover { color: #f59e0b; }
+  </style>
+
+  <script>
+    async function loadDashboard() {
+      const [newsRes, contactsRes, companiesRes] = await Promise.all([
+        fetch('/api/admin/news'),
+        fetch('/api/admin/contacts'),
+        fetch('/api/admin/companies'),
+      ]);
+      const [newsItems, contacts, companies] = await Promise.all([
+        newsRes.json(), contactsRes.json(), companiesRes.json()
+      ]);
+
+      const unread = contacts.filter(c => !c.read).length;
+      const published = newsItems.filter(n => n.published).length;
+
+      const statsGrid = document.getElementById('stats-grid');
+      statsGrid.innerHTML = `
+        <div class="stat-card">
+          <div class="glow" style="background:#fbbf24;"></div>
+          <div class="stat-icon" style="background:rgba(251,191,36,.15);">
+            <svg fill="none" stroke="#fbbf24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2"/></svg>
+          </div>
+          <div class="stat-value">${newsItems.length}</div>
+          <div class="stat-label">Total News · ${published} Published</div>
+        </div>
+        <div class="stat-card">
+          <div class="glow" style="background:#60a5fa;"></div>
+          <div class="stat-icon" style="background:rgba(96,165,250,.15);">
+            <svg fill="none" stroke="#60a5fa" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="stat-value">${contacts.length}</div>
+          <div class="stat-label">Contact Submissions · <span style="color:#60a5fa;">${unread} Unread</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="glow" style="background:#34d399;"></div>
+          <div class="stat-icon" style="background:rgba(52,211,153,.15);">
+            <svg fill="none" stroke="#34d399" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <div class="stat-value">4</div>
+          <div class="stat-label">Companies</div>
+        </div>
+      `;
+
+      // Recent contacts
+      const contactsEl = document.getElementById('recent-contacts');
+      const recentContacts = contacts.slice(-5).reverse();
+      if (recentContacts.length === 0) {
+        contactsEl.innerHTML = '<p style="color:#64748b;font-size:14px;">No submissions yet.</p>';
+      } else {
+        contactsEl.innerHTML = recentContacts.map(c => `
+          <div class="mini-card">
+            <div>
+              <div class="title">${c.name}</div>
+              <div class="meta">${c.email}</div>
+            </div>
+            <span class="${c.read ? 'badge-read' : 'badge-unread'}">${c.read ? 'Read' : 'New'}</span>
+          </div>
+        `).join('') + '<a href="/admin/contacts" class="view-all">View all →</a>';
+      }
+
+      // Recent news
+      const newsEl = document.getElementById('recent-news');
+      const recentNews = newsItems.slice(-5).reverse();
+      if (recentNews.length === 0) {
+        newsEl.innerHTML = '<p style="color:#64748b;font-size:14px;">No news yet.</p>';
+      } else {
+        newsEl.innerHTML = recentNews.map(n => `
+          <div class="mini-card">
+            <div>
+              <div class="title">${n.title}</div>
+              <div class="meta">${n.date}</div>
+            </div>
+            <span class="${n.published ? 'badge-published' : 'badge-draft'}">${n.published ? 'Live' : 'Draft'}</span>
+          </div>
+        `).join('') + '<a href="/admin/news" class="view-all">View all →</a>';
+      }
+    }
+
+    loadDashboard();
+  </script>
+</AdminLayout>

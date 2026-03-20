@@ -1,0 +1,13 @@
+{
+  // Wrangler config for Mallik Group Website (Cloudflare Pages + Workers)
+  "name": "mallik-group-website",
+  "compatibility_date": "2024-12-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
+  "r2_buckets": [
+    {
+      "bucket_name": "mallik-group-storage",
+      "binding": "STORAGE"
+    }
+  ]
+}
